@@ -1,0 +1,32 @@
+# general  modules
+
+django >5.2,<5.3
+python-dotenv==1.1.1
+gunicorn==23.0.0
+djangorestframework==3.16.0
+drf-spectacular[sidecar]
+psycopg[binary]==3.2.9
+requests==2.32.4
+django_cors_headers==4.7.0
+
+
+# third party modules
+
+PyJWT==2.10.1
+
+
+# deployment module
+
+django-debug-toolbar==5.2.0
+
+
+
+# email third party modules
+
+
+
+# refactoring and tests
+
+
+
+# background process and cache

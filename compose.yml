@@ -1,0 +1,32 @@
+services:
+
+  db:
+    container_name: db-orch
+    image: postgres:15-alpine
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - 5432
+    restart: always
+
+  backend:
+    container_name: backend-orch
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile
+    volumes:
+      - ./core:/usr/src/app
+    working_dir: /usr/src/app
+    # command: django-admin startproject core .
+    # command: sh -c "python manage.py makemigrations && python manage.py migrate"
+    command: gunicorn -c conf.py --bind 0.0.0.0:8000 core.wsgi:application --workers ${WORKERS:-3} --log-config config.ini
+
+    ports:
+      - "2000:8000"
+    restart: always
+    depends_on:
+      - db
